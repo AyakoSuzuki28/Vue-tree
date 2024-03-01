@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>list2tree</title>
+    <script src="https://unpkg.com/vue@3.0.5"></script>
+    <link href="CSS/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <h1>list2tree</h1>
+    </header>
+    <main>
+      <p id="desc">リストをツリー（ディレクトリ形式）に変換するツールです。</p>
+      <div id="app">
+        <div id="list">
+          <header id="list-header">
+            <div>List</div>
+            <div id="delete" @click="deleteList()">X</div>
+          </header>
+          <div id="list-main">
+            <div
+              contenteditable="true"
+              v-for="(item, index) in items"
+              :key="item.id"
+              :ref="el => {divs[item.id]=el}"
+              :style="{marginLeft: (item.indent * 20 + 20) + 'px'}"
+              @input="onInput($event,item)"
+              @keydown.tab.exact.prevent="onTab(item, index)"
+              @keydown.tab.shift.prevent="onTabShift(item, index)"
+              @keydown.up.prevent="onUp(index)"
+              @keydown.down.prevent="onDown(index)"
+              @keydown.enter.prevent="onEnter(item,index)"
+              @keydown.backspace="onBackspace(item,index)"
+            >
+              {{item.value}}
+            </div>
+          </div>
+        </div>
+        <div id="tree">
+          <header id="tree-header">Tree</header>
+          <pre id="tree-main">{{ tree }}</pre>
+        </div>
+      </div>
+    </main>
+    <script src="./list2tree.js"></script>
+  </body>
+</html>
